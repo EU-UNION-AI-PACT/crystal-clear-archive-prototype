@@ -40,7 +40,7 @@ const PrinciplesSection = () => {
         alt=""
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{
-          opacity: 0.12,
+          opacity: 0.18,
           filter: "saturate(0.25) brightness(0.5)",
           mixBlendMode: "luminosity",
           y: bgY,

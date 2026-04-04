@@ -303,7 +303,7 @@ const GlassmorphSketchCanvas = () => {
                 src={catImage}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
-                style={{ opacity: 0.1, filter: "saturate(0.6)" }}
+                style={{ opacity: 0.15, filter: "saturate(0.7)" }}
                 loading="lazy"
               />
             )}
