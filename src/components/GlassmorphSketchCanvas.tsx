@@ -262,7 +262,7 @@ const GlassmorphSketchCanvas = () => {
       >
         {/* Layered architectural library backgrounds — sharp, no blur */}
         {architecturalBackgrounds.map((bg, idx) => {
-          const baseOpacity = 0.08 + (idx % 2) * 0.04;
+          const baseOpacity = 0.12 + (idx % 2) * 0.06;
           return (
             <motion.img
               key={idx}
