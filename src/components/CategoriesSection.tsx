@@ -65,7 +65,7 @@ const CategoriesSection = () => {
                 className={`
                   ${layout}
                   group relative overflow-hidden text-left
-                  border border-border bg-card/30
+                  border border-border bg-card
                   transition-all duration-500
                   hover:border-primary/30
                   hover:shadow-[0_0_25px_hsl(38_90%_55%/0.1)]

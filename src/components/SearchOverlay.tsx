@@ -112,7 +112,7 @@ const SearchOverlay = ({ open, onClose, onNavigate }: SearchOverlayProps) => {
           onClick={onClose}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-xl" />
+          <div className="absolute inset-0 bg-background/95" />
 
           <motion.div
             initial={{ y: -20, opacity: 0, scale: 0.98 }}

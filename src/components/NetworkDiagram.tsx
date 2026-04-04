@@ -46,7 +46,7 @@ const NetworkDiagram = () => {
 
   return (
     <motion.div
-      className="mt-8 border border-border bg-card/20 p-4 overflow-hidden hover:border-primary/20 hover:shadow-[0_0_25px_hsl(38_90%_55%/0.06)] transition-all duration-500 relative"
+      className="mt-8 border border-border bg-card p-4 overflow-hidden hover:border-primary/20 hover:shadow-[0_0_25px_hsl(38_90%_55%/0.06)] transition-all duration-500 relative"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

@@ -73,7 +73,7 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/50"
+            className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border"
           >
             <div className="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
               <button
