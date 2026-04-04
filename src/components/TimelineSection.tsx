@@ -100,8 +100,8 @@ const TimelineSection = () => {
         alt=""
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{
-          opacity: 0.065,
-          filter: "blur(1px) saturate(0.25) brightness(0.6)",
+          opacity: 0.12,
+          filter: "saturate(0.3) brightness(0.5)",
           mixBlendMode: "luminosity",
           y: bgY,
           scale: bgScale,
