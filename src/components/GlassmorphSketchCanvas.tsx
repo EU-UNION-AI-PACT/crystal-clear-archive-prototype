@@ -211,9 +211,14 @@ const GlassmorphSketchCanvas = () => {
   const { scrollYProgress } = useScroll();
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
+  // Auto-switch categories every 6 seconds
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
+    const autoSwitch = setInterval(() => {
+      setCurrentPage((p) => (p + 1) % categorySketchData.length);
+      setHoveredShape(null);
+    }, 6000);
+    return () => { clearInterval(t); clearInterval(autoSwitch); };
   }, []);
 
   const sketch = categorySketchData[currentPage];
