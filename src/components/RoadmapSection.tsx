@@ -131,7 +131,7 @@ const RoadmapSection = () => {
             {techStack.map((t, i) => (
               <motion.div
                 key={t.category}
-                className="border border-border/50 p-4 bg-card/10 hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500 group"
+                className="border border-border/50 p-4 bg-card hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500 group"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
