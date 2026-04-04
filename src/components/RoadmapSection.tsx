@@ -82,8 +82,8 @@ const RoadmapSection = () => {
             <motion.div
               key={p.phase}
               className={`
-                border border-border border-l-2 bg-card/20 
-                hover:bg-card/40 transition-all duration-500
+                border border-border border-l-2 bg-card 
+                transition-all duration-500
                 ${statusBorder[p.status]}
               `}
               initial={{ opacity: 0, x: -15 }}
