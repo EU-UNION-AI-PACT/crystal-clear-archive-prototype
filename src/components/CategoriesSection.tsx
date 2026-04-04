@@ -4,18 +4,18 @@ import { ArrowRight } from "lucide-react";
 import { archiveCategories } from "@/data/archiveData";
 
 const layoutMap: Record<number, string> = {
-  0: "col-span-2 row-span-2",  // featured
+  0: "col-span-2 row-span-2",
   1: "col-span-1",
   2: "col-span-1",
-  3: "col-span-2",             // wide
+  3: "col-span-2",
   4: "col-span-1",
-  5: "col-span-2 row-span-2",  // featured
+  5: "col-span-2 row-span-2",
   6: "col-span-1",
   7: "col-span-1",
-  8: "col-span-2",             // wide
+  8: "col-span-2",
   9: "col-span-1",
   10: "col-span-1",
-  11: "col-span-2",            // wide
+  11: "col-span-2",
 };
 
 const CategoriesSection = () => {
@@ -66,9 +66,9 @@ const CategoriesSection = () => {
                   ${layout}
                   group relative overflow-hidden text-left
                   border border-border bg-card
-                  transition-all duration-500
+                  card-hover-lift
                   hover:border-primary/30
-                  hover:shadow-[0_0_25px_hsl(38_90%_55%/0.1)]
+                  hover:shadow-[0_0_25px_hsl(38_90%_55%/0.12)]
                 `}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -77,29 +77,31 @@ const CategoriesSection = () => {
               >
                 {/* Top glow line */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/40 transition-all duration-700" />
+                
+                {/* Bottom glow line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/20 transition-all duration-700" />
 
                 <div className={`relative h-full ${isFeatured ? 'p-7' : 'p-4'}`}>
                   {/* Tag corner */}
-                  <span className="absolute top-3 right-3 font-mono text-[8px] tracking-[0.2em] text-muted-foreground/25 group-hover:text-primary/30 transition-colors">
+                  <span className="absolute top-3 right-3 font-mono text-[8px] tracking-[0.2em] text-muted-foreground/25 group-hover:text-primary/40 transition-colors duration-500">
                     {cat.tag}
                   </span>
 
                   <div className={`${isFeatured ? 'flex flex-col justify-between h-full' : ''}`}>
-                    <div>
+                    <div className="hover-content-shift">
                       <Icon
                         className={`
-                          ${cat.color} opacity-50 group-hover:opacity-100 transition-all duration-300
-                          group-hover:drop-shadow-[0_0_8px_${cat.glowColor}]
+                          ${cat.color} opacity-50 group-hover:opacity-100 transition-all duration-500
                           ${isFeatured ? 'w-7 h-7 mb-5' : 'w-4 h-4 mb-2'}
                         `}
                         strokeWidth={1.5}
                       />
-                      <h3 className={`font-display font-semibold text-foreground group-hover:text-primary/90 transition-colors
+                      <h3 className={`font-display font-semibold text-foreground group-hover:text-primary/90 transition-colors duration-300
                         ${isFeatured ? 'text-base mb-2' : 'text-[11px] mb-1'}
                       `}>
                         {cat.title}
                       </h3>
-                      <p className={`text-muted-foreground leading-relaxed
+                      <p className={`text-muted-foreground leading-relaxed group-hover:text-muted-foreground/80 transition-colors duration-500
                         ${isFeatured ? 'text-xs' : 'text-[10px]'}
                       `}>
                         {cat.subtitle}
@@ -107,23 +109,23 @@ const CategoriesSection = () => {
                     </div>
 
                     {isFeatured && (
-                      <div className="mt-4 border-t border-border/50 pt-3 flex items-center justify-between">
+                      <div className="mt-4 border-t border-border/50 pt-3 flex items-center justify-between group-hover:border-primary/20 transition-colors duration-500">
                         <span className="font-mono text-[10px] text-muted-foreground/40">
                           {cat.entries.length} Einträge
                         </span>
                         <span className="flex items-center gap-1 font-mono text-[10px] text-primary/50 group-hover:text-primary transition-colors">
                           Archiv öffnen
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
                         </span>
                       </div>
                     )}
 
                     {!isFeatured && (
                       <div className="mt-2 flex items-center gap-1">
-                        <span className="font-mono text-[9px] text-muted-foreground/30 group-hover:text-primary/50 transition-colors">
+                        <span className="font-mono text-[9px] text-muted-foreground/30 group-hover:text-primary/50 transition-colors duration-300">
                           {cat.entries.length}
                         </span>
-                        <ArrowRight className="w-2.5 h-2.5 text-muted-foreground/20 group-hover:text-primary/50 group-hover:translate-x-0.5 transition-all" />
+                        <ArrowRight className="w-2.5 h-2.5 text-muted-foreground/20 group-hover:text-primary/50 group-hover:translate-x-1 transition-all duration-300" />
                       </div>
                     )}
                   </div>

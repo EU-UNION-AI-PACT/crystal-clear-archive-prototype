@@ -19,7 +19,7 @@ const HeroSection = () => {
         alt=""
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{
-          opacity: 0.15,
+          opacity: 0.2,
           filter: "saturate(0.4) brightness(0.6)",
           mixBlendMode: "luminosity",
           y: bgY,

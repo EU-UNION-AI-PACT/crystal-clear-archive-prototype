@@ -43,7 +43,7 @@ const ArchitectureSection = () => {
     offset: ["start end", "end start"],
   });
   const bgY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.06, 0.15, 0.15, 0.06]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.1, 0.2, 0.2, 0.1]);
 
   return (
     <section ref={sectionRef} id="architecture" className="py-24 px-6 relative border-t border-border overflow-hidden">

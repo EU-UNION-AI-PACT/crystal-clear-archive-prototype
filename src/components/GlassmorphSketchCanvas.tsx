@@ -207,13 +207,26 @@ const GlassmorphSketchCanvas = () => {
   const [now, setNow] = useState(new Date());
   const [hoveredShape, setHoveredShape] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const autoSwitchRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const { scrollYProgress } = useScroll();
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
+  const startAutoSwitch = () => {
+    if (autoSwitchRef.current) clearInterval(autoSwitchRef.current);
+    autoSwitchRef.current = setInterval(() => {
+      setCurrentPage((p) => (p + 1) % categorySketchData.length);
+      setHoveredShape(null);
+    }, 6000);
+  };
+
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
+    startAutoSwitch();
+    return () => {
+      clearInterval(t);
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current);
+    };
   }, []);
 
   const sketch = categorySketchData[currentPage];
@@ -224,6 +237,7 @@ const GlassmorphSketchCanvas = () => {
   const goTo = (dir: number) => {
     setCurrentPage((p) => (p + dir + totalPages) % totalPages);
     setHoveredShape(null);
+    startAutoSwitch(); // Reset timer on manual navigation
   };
 
   useEffect(() => {
@@ -257,7 +271,7 @@ const GlassmorphSketchCanvas = () => {
       >
         {/* Layered architectural library backgrounds — sharp, no blur */}
         {architecturalBackgrounds.map((bg, idx) => {
-          const baseOpacity = 0.08 + (idx % 2) * 0.04;
+          const baseOpacity = 0.12 + (idx % 2) * 0.06;
           return (
             <motion.img
               key={idx}
@@ -298,7 +312,7 @@ const GlassmorphSketchCanvas = () => {
                 src={catImage}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
-                style={{ opacity: 0.1, filter: "saturate(0.6)" }}
+                style={{ opacity: 0.15, filter: "saturate(0.7)" }}
                 loading="lazy"
               />
             )}
