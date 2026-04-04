@@ -107,7 +107,7 @@ const RoadmapSection = () => {
                 
                 <div className="flex-1 flex flex-wrap gap-2">
                   {p.items.map((item) => (
-                    <span key={item} className="text-[11px] text-muted-foreground px-3 py-1.5 border border-border/50 bg-background/50 hover:border-primary/20 transition-colors">
+                    <span key={item} className="text-[11px] text-muted-foreground px-3 py-1.5 border border-border/50 bg-background hover:border-primary/20 transition-colors">
                       {item}
                     </span>
                   ))}
