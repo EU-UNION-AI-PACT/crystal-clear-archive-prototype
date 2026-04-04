@@ -57,15 +57,22 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     @apply bg-background text-foreground font-body;
     font-feature-settings: "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+  }
+
+  img, svg {
+    image-rendering: auto;
   }
 }
 
@@ -95,5 +102,23 @@
   .grid-dots {
     background-image: radial-gradient(circle, hsl(var(--amber-dim) / 0.3) 1px, transparent 1px);
     background-size: 24px 24px;
+  }
+
+  /* Smooth card hover lift */
+  .card-hover-lift {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
+  }
+  .card-hover-lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Smooth inner content shift on hover */
+  .hover-content-shift {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .group:hover .hover-content-shift {
+    transform: translateY(-2px);
   }
 }
