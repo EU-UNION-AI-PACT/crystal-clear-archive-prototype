@@ -207,18 +207,26 @@ const GlassmorphSketchCanvas = () => {
   const [now, setNow] = useState(new Date());
   const [hoveredShape, setHoveredShape] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const autoSwitchRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const { scrollYProgress } = useScroll();
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Auto-switch categories every 6 seconds
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    const autoSwitch = setInterval(() => {
+  const startAutoSwitch = () => {
+    if (autoSwitchRef.current) clearInterval(autoSwitchRef.current);
+    autoSwitchRef.current = setInterval(() => {
       setCurrentPage((p) => (p + 1) % categorySketchData.length);
       setHoveredShape(null);
     }, 6000);
-    return () => { clearInterval(t); clearInterval(autoSwitch); };
+  };
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    startAutoSwitch();
+    return () => {
+      clearInterval(t);
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current);
+    };
   }, []);
 
   const sketch = categorySketchData[currentPage];
@@ -229,6 +237,7 @@ const GlassmorphSketchCanvas = () => {
   const goTo = (dir: number) => {
     setCurrentPage((p) => (p + dir + totalPages) % totalPages);
     setHoveredShape(null);
+    startAutoSwitch(); // Reset timer on manual navigation
   };
 
   useEffect(() => {
