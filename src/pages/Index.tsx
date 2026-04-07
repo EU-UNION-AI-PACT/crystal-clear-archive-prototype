@@ -7,10 +7,12 @@ import TimelineSection from "@/components/TimelineSection";
 import RoadmapSection from "@/components/RoadmapSection";
 import FooterSection from "@/components/FooterSection";
 import GlassmorphSketchCanvas from "@/components/GlassmorphSketchCanvas";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
+      <ScrollProgress />
       <GlassmorphSketchCanvas />
       <div className="relative z-10">
         <Navbar />

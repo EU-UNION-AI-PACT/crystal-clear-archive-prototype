@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import bgHeroObservatory from "@/assets/bg-hero-observatory.jpg";
+import ScrollIndicator from "./ScrollIndicator";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -120,6 +121,8 @@ const HeroSection = () => {
           </span>
         </motion.div>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 };
