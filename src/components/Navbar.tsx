@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, User, LogOut, Shield, Users } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import SearchOverlay from "./SearchOverlay";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { label: "Prinzipien", href: "#principles" },
@@ -19,6 +20,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const { user, isAdmin, signOut } = useAuth();
 
   useEffect(() => {
     const onScroll = () => {
@@ -123,6 +125,43 @@ const Navbar = () => {
                   <span className="hidden sm:inline">Suche</span>
                   <kbd className="hidden sm:inline text-[9px] text-muted-foreground/40 border border-border/40 px-1 py-0.5 ml-1">⌘K</kbd>
                 </button>
+
+                {/* Auth buttons */}
+                {user ? (
+                  <div className="flex items-center gap-1 ml-2">
+                    {isAdmin && (
+                      <button
+                        onClick={() => navigate("/admin")}
+                        className="flex items-center gap-1 px-2 py-1.5 border border-primary/20 text-primary hover:bg-primary/5 transition-all font-mono text-[10px]"
+                        title="Admin Panel"
+                      >
+                        <Shield className="w-3 h-3" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => navigate("/member")}
+                      className="flex items-center gap-1 px-2 py-1.5 border border-border/50 text-muted-foreground hover:text-primary hover:border-primary/30 transition-all font-mono text-[10px]"
+                      title="Member"
+                    >
+                      <Users className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={() => signOut()}
+                      className="flex items-center gap-1 px-2 py-1.5 border border-border/50 text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all font-mono text-[10px]"
+                      title="Abmelden"
+                    >
+                      <LogOut className="w-3 h-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigate("/auth")}
+                    className="ml-2 flex items-center gap-1 px-3 py-1.5 border border-primary/30 text-primary hover:bg-primary/5 transition-all font-mono text-[10px]"
+                  >
+                    <User className="w-3 h-3" />
+                    Login
+                  </button>
+                )}
               </div>
             </div>
           </motion.nav>
