@@ -130,6 +130,7 @@ const Navbar = () => {
                 {/* Auth buttons */}
                 {user ? (
                   <div className="flex items-center gap-1 ml-2">
+                    <NotificationBell />
                     {isAdmin && (
                       <button
                         onClick={() => navigate("/admin")}
