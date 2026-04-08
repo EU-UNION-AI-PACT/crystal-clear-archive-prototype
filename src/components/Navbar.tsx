@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, User, LogOut, Shield, Users } from "lucide-react";
+import NotificationBell from "./NotificationBell";
 import { useNavigate, useLocation } from "react-router-dom";
 import SearchOverlay from "./SearchOverlay";
 import { useAuth } from "@/contexts/AuthContext";
@@ -129,6 +130,7 @@ const Navbar = () => {
                 {/* Auth buttons */}
                 {user ? (
                   <div className="flex items-center gap-1 ml-2">
+                    <NotificationBell />
                     {isAdmin && (
                       <button
                         onClick={() => navigate("/admin")}
