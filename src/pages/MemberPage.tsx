@@ -59,24 +59,51 @@ const MemberPage = () => {
     }
   };
 
+  const [verifying, setVerifying] = useState(false);
+
   const submitId = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!idValue.trim()) return toast.error("Bitte ID-Wert eingeben.");
 
-    const { error } = await supabase.from("member_ids").insert({
+    const { data: inserted, error } = await supabase.from("member_ids").insert({
       user_id: user!.id,
       id_type: selectedIdType,
       id_value: idValue.trim(),
-    });
+    }).select().single();
 
     if (error) {
       if (error.code === "23505") toast.error("Diese ID-Art hast du bereits eingereicht.");
       else toast.error("Fehler: " + error.message);
-    } else {
-      toast.success("ID eingereicht! Wird automatisch geprüft und vom Admin verifiziert.");
-      setIdValue("");
-      loadData();
+      return;
     }
+
+    toast.success("ID eingereicht! Automatische Prüfung läuft...");
+    setIdValue("");
+    setVerifying(true);
+
+    // Trigger auto-verification
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await supabase.functions.invoke("verify-id", {
+        body: {
+          id_type: selectedIdType,
+          id_value: idValue.trim() || inserted.id_value,
+          member_id_record: inserted.id,
+        },
+      });
+
+      if (res.data?.result?.verified) {
+        toast.success(`✓ ${selectedIdType.toUpperCase()} automatisch verifiziert via ${res.data.result.source}!`);
+      } else {
+        toast.info(`Automatische Prüfung abgeschlossen — manuelle Verifizierung durch Admin erforderlich.`);
+      }
+    } catch (err) {
+      console.error("Auto-verify error:", err);
+      toast.info("Automatische Prüfung fehlgeschlagen — wird manuell geprüft.");
+    }
+
+    setVerifying(false);
+    loadData();
   };
 
   const submitWish = async (e: React.FormEvent) => {
