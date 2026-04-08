@@ -59,24 +59,51 @@ const MemberPage = () => {
     }
   };
 
+  const [verifying, setVerifying] = useState(false);
+
   const submitId = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!idValue.trim()) return toast.error("Bitte ID-Wert eingeben.");
 
-    const { error } = await supabase.from("member_ids").insert({
+    const { data: inserted, error } = await supabase.from("member_ids").insert({
       user_id: user!.id,
       id_type: selectedIdType,
       id_value: idValue.trim(),
-    });
+    }).select().single();
 
     if (error) {
       if (error.code === "23505") toast.error("Diese ID-Art hast du bereits eingereicht.");
       else toast.error("Fehler: " + error.message);
-    } else {
-      toast.success("ID eingereicht! Wird automatisch geprüft und vom Admin verifiziert.");
-      setIdValue("");
-      loadData();
+      return;
     }
+
+    toast.success("ID eingereicht! Automatische Prüfung läuft...");
+    setIdValue("");
+    setVerifying(true);
+
+    // Trigger auto-verification
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await supabase.functions.invoke("verify-id", {
+        body: {
+          id_type: selectedIdType,
+          id_value: idValue.trim() || inserted.id_value,
+          member_id_record: inserted.id,
+        },
+      });
+
+      if (res.data?.result?.verified) {
+        toast.success(`✓ ${selectedIdType.toUpperCase()} automatisch verifiziert via ${res.data.result.source}!`);
+      } else {
+        toast.info(`Automatische Prüfung abgeschlossen — manuelle Verifizierung durch Admin erforderlich.`);
+      }
+    } catch (err) {
+      console.error("Auto-verify error:", err);
+      toast.info("Automatische Prüfung fehlgeschlagen — wird manuell geprüft.");
+    }
+
+    setVerifying(false);
+    loadData();
   };
 
   const submitWish = async (e: React.FormEvent) => {
@@ -183,8 +210,8 @@ const MemberPage = () => {
                     className="w-full bg-background border border-border px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground/40 focus:border-primary/50 focus:outline-none"
                   />
                 </div>
-                <button type="submit" className="px-6 py-2.5 bg-primary text-primary-foreground font-mono text-xs tracking-wider uppercase border border-primary hover:bg-primary/90 transition-colors border-glow">
-                  ID einreichen
+                <button type="submit" disabled={verifying} className="px-6 py-2.5 bg-primary text-primary-foreground font-mono text-xs tracking-wider uppercase border border-primary hover:bg-primary/90 transition-colors border-glow disabled:opacity-50">
+                  {verifying ? "Prüfung läuft..." : "ID einreichen"}
                 </button>
               </form>
             </div>
@@ -218,9 +245,19 @@ const MemberPage = () => {
                       <div>
                         <span className="font-mono text-xs text-primary uppercase">{mid.id_type}</span>
                         <span className="font-mono text-sm text-foreground ml-2">{mid.id_value}</span>
+                        {mid.auto_verified && (
+                          <span className="font-mono text-[9px] text-accent ml-2">⚡ Auto-verifiziert</span>
+                        )}
+                        {mid.verification_details && (
+                          <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                            {mid.verification_details.legalName || mid.verification_details.givenName || mid.verification_details.name || mid.verification_details.note || ""}
+                          </p>
+                        )}
                       </div>
-                      <span className={`font-mono text-[9px] px-2 py-0.5 border ${mid.verified ? "text-accent border-accent/30" : "text-muted-foreground border-border"}`}>
-                        {mid.verified ? "✓ Verifiziert" : "Ausstehend"}
+                      <span className={`font-mono text-[9px] px-2 py-0.5 border shrink-0 ${
+                        mid.verified ? "text-accent border-accent/30" : mid.auto_verified ? "text-primary border-primary/30" : "text-muted-foreground border-border"
+                      }`}>
+                        {mid.verified ? "✓ Verifiziert" : mid.auto_verified ? "⚡ Auto-OK" : "Ausstehend"}
                       </span>
                     </div>
                   ))}
