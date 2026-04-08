@@ -210,8 +210,8 @@ const MemberPage = () => {
                     className="w-full bg-background border border-border px-4 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground/40 focus:border-primary/50 focus:outline-none"
                   />
                 </div>
-                <button type="submit" className="px-6 py-2.5 bg-primary text-primary-foreground font-mono text-xs tracking-wider uppercase border border-primary hover:bg-primary/90 transition-colors border-glow">
-                  ID einreichen
+                <button type="submit" disabled={verifying} className="px-6 py-2.5 bg-primary text-primary-foreground font-mono text-xs tracking-wider uppercase border border-primary hover:bg-primary/90 transition-colors border-glow disabled:opacity-50">
+                  {verifying ? "Prüfung läuft..." : "ID einreichen"}
                 </button>
               </form>
             </div>
