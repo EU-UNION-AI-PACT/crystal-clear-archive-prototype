@@ -245,9 +245,19 @@ const MemberPage = () => {
                       <div>
                         <span className="font-mono text-xs text-primary uppercase">{mid.id_type}</span>
                         <span className="font-mono text-sm text-foreground ml-2">{mid.id_value}</span>
+                        {mid.auto_verified && (
+                          <span className="font-mono text-[9px] text-accent ml-2">⚡ Auto-verifiziert</span>
+                        )}
+                        {mid.verification_details && (
+                          <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                            {mid.verification_details.legalName || mid.verification_details.givenName || mid.verification_details.name || mid.verification_details.note || ""}
+                          </p>
+                        )}
                       </div>
-                      <span className={`font-mono text-[9px] px-2 py-0.5 border ${mid.verified ? "text-accent border-accent/30" : "text-muted-foreground border-border"}`}>
-                        {mid.verified ? "✓ Verifiziert" : "Ausstehend"}
+                      <span className={`font-mono text-[9px] px-2 py-0.5 border shrink-0 ${
+                        mid.verified ? "text-accent border-accent/30" : mid.auto_verified ? "text-primary border-primary/30" : "text-muted-foreground border-border"
+                      }`}>
+                        {mid.verified ? "✓ Verifiziert" : mid.auto_verified ? "⚡ Auto-OK" : "Ausstehend"}
                       </span>
                     </div>
                   ))}
