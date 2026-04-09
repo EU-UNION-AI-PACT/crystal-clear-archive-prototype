@@ -76,25 +76,26 @@ const RoadmapSection = () => {
           </p>
         </motion.div>
 
-        {/* Phases — staggered vertical layout instead of equal columns */}
+        {/* Phases — staggered vertical layout */}
         <div className="space-y-4">
           {phases.map((p, i) => (
             <motion.div
               key={p.phase}
               className={`
                 border border-border border-l-2 bg-card 
-                transition-all duration-500
+                transition-all duration-500 shine-sweep
                 ${statusBorder[p.status]}
               `}
               initial={{ opacity: 0, x: -15 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.12, duration: 0.6 }}
+              whileHover={{ x: 6 }}
               style={{ marginLeft: `${i * 2}rem` }}
             >
               <div className="p-6 flex flex-col md:flex-row md:items-start gap-6">
                 <div className="flex items-center gap-3 shrink-0 md:w-48">
-                  <span className={`w-2 h-2 rounded-full ${statusDot[p.status]}`} />
+                  <span className={`w-2 h-2 ${statusDot[p.status]}`} />
                   <div>
                     <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider block">
                       {p.phase}
@@ -106,10 +107,18 @@ const RoadmapSection = () => {
                 </div>
                 
                 <div className="flex-1 flex flex-wrap gap-2">
-                  {p.items.map((item) => (
-                    <span key={item} className="text-[11px] text-muted-foreground px-3 py-1.5 border border-border/50 bg-background hover:border-primary/20 transition-colors">
+                  {p.items.map((item, ii) => (
+                    <motion.span
+                      key={item}
+                      className="text-[11px] text-muted-foreground px-3 py-1.5 border border-border/50 bg-background hover:border-primary/20 hover:text-foreground transition-all duration-300"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 + ii * 0.04 }}
+                      whileHover={{ scale: 1.03, y: -1 }}
+                    >
                       {item}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -117,9 +126,18 @@ const RoadmapSection = () => {
           ))}
         </div>
 
+        {/* Connecting line between phases and tech stack */}
+        <motion.div
+          className="flex justify-center my-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="h-12 w-px bg-gradient-to-b from-primary/20 via-primary/40 to-primary/20" />
+        </motion.div>
+
         {/* Tech stack — horizontal cards */}
         <motion.div
-          className="mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -131,14 +149,21 @@ const RoadmapSection = () => {
             {techStack.map((t, i) => (
               <motion.div
                 key={t.category}
-                className="border border-border/50 p-4 bg-card hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500 group"
+                className="border border-border/50 p-4 bg-card hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500 group shine-sweep"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: i * 0.06 }}
+                whileHover={{ y: -3 }}
               >
-                <span className="text-lg text-primary/20 group-hover:text-primary/40 transition-colors">{t.icon}</span>
-                <span className="text-foreground text-xs font-semibold block mt-2 mb-1">{t.category}</span>
+                <motion.span
+                  className="text-lg text-primary/20 group-hover:text-primary/50 transition-colors duration-500 inline-block"
+                  whileHover={{ rotate: 15, scale: 1.2 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  {t.icon}
+                </motion.span>
+                <span className="text-foreground text-xs font-semibold block mt-2 mb-1 group-hover:text-primary transition-colors duration-300">{t.category}</span>
                 <span className="text-[10px] text-muted-foreground font-mono">{t.items}</span>
               </motion.div>
             ))}
