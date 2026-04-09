@@ -66,20 +66,24 @@ const CategoriesSection = () => {
                   ${layout}
                   group relative overflow-hidden text-left
                   border border-border bg-card
-                  card-hover-lift
+                  card-hover-lift shine-sweep
                   hover:border-primary/30
                   hover:shadow-[0_0_25px_hsl(38_90%_55%/0.12)]
                 `}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.03 }}
+                transition={{ duration: 0.5, delay: i * 0.04 }}
               >
                 {/* Top glow line */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/40 transition-all duration-700" />
                 
                 {/* Bottom glow line */}
                 <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/20 transition-all duration-700" />
+
+                {/* Corner accent that appears on hover */}
+                <div className="absolute top-0 left-0 w-0 h-0 border-t border-l border-primary/0 group-hover:w-6 group-hover:h-6 group-hover:border-primary/30 transition-all duration-500" />
+                <div className="absolute bottom-0 right-0 w-0 h-0 border-b border-r border-primary/0 group-hover:w-6 group-hover:h-6 group-hover:border-primary/30 transition-all duration-500 delay-100" />
 
                 <div className={`relative h-full ${isFeatured ? 'p-7' : 'p-4'}`}>
                   {/* Tag corner */}
@@ -115,7 +119,7 @@ const CategoriesSection = () => {
                         </span>
                         <span className="flex items-center gap-1 font-mono text-[10px] text-primary/50 group-hover:text-primary transition-colors">
                           Archiv öffnen
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1.5 transition-transform duration-300" />
                         </span>
                       </div>
                     )}

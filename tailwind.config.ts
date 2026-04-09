@@ -96,6 +96,26 @@ export default {
           "0%": { transform: "translateY(-100%)" },
           "100%": { transform: "translateY(100vh)" },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 8px hsl(var(--primary) / 0.15)" },
+          "50%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
+        },
+        "border-travel": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "200% 50%" },
+        },
+        "text-shimmer": {
+          "0%": { backgroundPosition: "-200% center" },
+          "100%": { backgroundPosition: "200% center" },
+        },
+        "draw-line": {
+          from: { strokeDashoffset: "100%" },
+          to: { strokeDashoffset: "0%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -103,6 +123,10 @@ export default {
         "pulse-glow": "pulse-glow 3s ease-in-out infinite",
         "flicker": "flicker 8s ease-in-out infinite",
         "scan": "scan 8s linear infinite",
+        "float": "float 6s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "border-travel": "border-travel 4s linear infinite",
+        "text-shimmer": "text-shimmer 6s ease-in-out infinite",
       },
     },
   },

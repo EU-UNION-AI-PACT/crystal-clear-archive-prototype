@@ -74,6 +74,28 @@
   img, svg {
     image-rendering: auto;
   }
+
+  /* Custom scrollbar — sharp, minimal */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border: 1px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+
+  /* Selection color */
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
 }
 
 @layer utilities {
@@ -106,19 +128,85 @@
 
   /* Smooth card hover lift */
   .card-hover-lift {
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
-                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                border-color 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.5s ease;
   }
   .card-hover-lift:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
   }
 
   /* Smooth inner content shift on hover */
   .hover-content-shift {
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .group:hover .hover-content-shift {
     transform: translateY(-2px);
   }
+
+  /* Shine sweep effect on hover */
+  .shine-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-sweep::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--primary) / 0.04),
+      transparent
+    );
+    transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  .shine-sweep:hover::after {
+    left: 130%;
+  }
+
+  /* Animated underline for links */
+  .animated-underline {
+    position: relative;
+  }
+  .animated-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: hsl(var(--primary));
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .animated-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Staggered fade in for children */
+  .stagger-children > * {
+    opacity: 0;
+    animation: stagger-fade-in 0.6s ease forwards;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+  .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+
+  @keyframes stagger-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar hide utility */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 }

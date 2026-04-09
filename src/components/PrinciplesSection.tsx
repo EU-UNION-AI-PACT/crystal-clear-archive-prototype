@@ -60,9 +60,14 @@ const PrinciplesSection = () => {
         >
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-primary/60 mb-3">
+              <motion.p
+                className="font-mono text-xs tracking-[0.3em] uppercase text-primary/60 mb-3"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
                 &#47;&#47; Foundations
-              </p>
+              </motion.p>
               <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
                 Design-Prinzipien
               </h2>
@@ -86,29 +91,39 @@ const PrinciplesSection = () => {
                   hover:border-primary/30
                   transition-all duration-500
                   hover:shadow-[0_0_20px_hsl(38_90%_55%/0.08)]
+                  shine-sweep
                 `}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+                whileHover={{ y: -3 }}
               >
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/50 transition-all duration-500" />
+                {/* Top glow line on hover */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/50 transition-all duration-700" />
+                
+                {/* Side accent line */}
+                <div className="absolute left-0 top-0 w-px h-0 bg-primary/40 group-hover:h-full transition-all duration-700 ease-out" />
                 
                 <div className={`p-6 ${isWide ? 'flex items-start gap-6' : ''}`}>
                   <div className={`flex items-center gap-3 ${isWide ? 'shrink-0' : 'mb-4'}`}>
-                    <span className="text-2xl text-primary/40 group-hover:text-primary/70 transition-colors">
+                    <motion.span
+                      className="text-2xl text-primary/40 group-hover:text-primary/70 transition-colors duration-500"
+                      whileHover={{ scale: 1.2, rotate: 15 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       {p.icon}
-                    </span>
+                    </motion.span>
                     <span className="font-mono text-[10px] text-primary/50 tracking-wider">
                       {p.id}
                     </span>
                   </div>
                   
                   <div>
-                    <h3 className="font-display font-semibold text-foreground text-sm mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="font-display font-semibold text-foreground text-sm mb-2 group-hover:text-primary transition-colors duration-300">
                       {p.title}
                     </h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-muted-foreground leading-relaxed group-hover:text-muted-foreground/90 transition-colors duration-500">
                       {p.desc}
                     </p>
                   </div>

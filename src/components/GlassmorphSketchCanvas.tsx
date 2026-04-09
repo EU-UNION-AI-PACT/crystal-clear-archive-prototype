@@ -387,7 +387,7 @@ const GlassmorphSketchCanvas = () => {
 
                   {/* Category quick info overlay */}
                   <div className="absolute bottom-2 left-3 flex items-center gap-2">
-                    <span className="font-mono text-[8px] text-muted-foreground bg-background/80 px-1.5 py-0.5">
+                    <span className="font-mono text-[8px] text-muted-foreground bg-card border border-border/30 px-1.5 py-0.5">
                       {sketch.entryCount} Einträge
                     </span>
                     {sketch.topEntries.map((e, i) => (
@@ -400,7 +400,7 @@ const GlassmorphSketchCanvas = () => {
                   {/* Archive link */}
                   <Link 
                     to={`/archive/${sketch.slug}`}
-                    className="absolute top-2 right-3 flex items-center gap-1 font-mono text-[8px] text-primary/60 hover:text-primary transition-colors bg-background/80 px-2 py-1"
+                    className="absolute top-2 right-3 flex items-center gap-1 font-mono text-[8px] text-primary/60 hover:text-primary transition-all duration-300 bg-card border border-border/30 px-2 py-1 hover:border-primary/30"
                   >
                     Archiv öffnen <ExternalLink className="w-2.5 h-2.5" />
                   </Link>
