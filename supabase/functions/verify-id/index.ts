@@ -1,5 +1,9 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.102.1";
-import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.102.1/cors";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
 
 interface VerificationRequest {
   id_type: string;
@@ -139,7 +143,7 @@ Deno.serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Verify JWT
-    const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!);
+    const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
     const token = authHeader.replace("Bearer ", "");
     const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
     if (authError || !user) {
