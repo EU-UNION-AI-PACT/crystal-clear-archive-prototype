@@ -11,6 +11,8 @@ const HeroSection = () => {
   });
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -20,7 +22,7 @@ const HeroSection = () => {
         alt=""
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{
-          opacity: 0.2,
+          opacity: 0.22,
           filter: "saturate(0.4) brightness(0.6)",
           mixBlendMode: "luminosity",
           y: bgY,
@@ -41,13 +43,38 @@ const HeroSection = () => {
         <div className="w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-scan" />
       </div>
 
-      {/* Corner decorations */}
-      <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-primary/40" />
-      <div className="absolute top-8 right-8 w-16 h-16 border-r-2 border-t-2 border-primary/40" />
-      <div className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-primary/40" />
-      <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-primary/40" />
+      {/* Corner decorations with animation */}
+      {[
+        "top-8 left-8 border-l-2 border-t-2",
+        "top-8 right-8 border-r-2 border-t-2",
+        "bottom-8 left-8 border-l-2 border-b-2",
+        "bottom-8 right-8 border-r-2 border-b-2",
+      ].map((cls, i) => (
+        <motion.div
+          key={i}
+          className={`absolute ${cls} w-16 h-16 border-primary/40`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
+        />
+      ))}
 
-      <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
+      {/* Decorative floating diamond */}
+      <motion.div
+        className="absolute top-16 right-32 w-6 h-6 border border-primary/20 rotate-45 hidden md:block"
+        animate={{ y: [0, -10, 0], rotate: [45, 50, 45] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-32 left-24 w-4 h-4 border border-accent/20 rotate-45 hidden md:block"
+        animate={{ y: [0, 8, 0], rotate: [45, 40, 45] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      />
+
+      <motion.div
+        className="relative z-20 text-center px-6 max-w-5xl mx-auto"
+        style={{ opacity: contentOpacity, y: contentY }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -66,7 +93,14 @@ const HeroSection = () => {
         >
           AI & Tech
           <br />
-          <span className="text-foreground">Heritage Archive</span>
+          <motion.span
+            className="text-foreground"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            Heritage Archive
+          </motion.span>
         </motion.h1>
 
         <motion.p
@@ -92,12 +126,30 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
         >
-          <a href="#architecture" className="px-8 py-3 bg-primary text-primary-foreground font-mono text-sm tracking-wider uppercase border border-primary hover:bg-primary/90 transition-colors border-glow">
-            Architektur erkunden
-          </a>
-          <a href="#categories" className="px-8 py-3 border border-border text-foreground font-mono text-sm tracking-wider uppercase hover:border-primary/50 hover:text-primary transition-colors">
-            Kategorien →
-          </a>
+          <motion.a
+            href="#architecture"
+            className="px-8 py-3 bg-primary text-primary-foreground font-mono text-sm tracking-wider uppercase border border-primary transition-all duration-300 border-glow relative overflow-hidden group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="relative z-10">Architektur erkunden</span>
+            <div className="absolute inset-0 bg-primary/80 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          </motion.a>
+          <motion.a
+            href="#categories"
+            className="px-8 py-3 border border-border text-foreground font-mono text-sm tracking-wider uppercase hover:border-primary/50 hover:text-primary transition-all duration-300 group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Kategorien
+            <motion.span
+              className="inline-block ml-2"
+              animate={{ x: [0, 4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
+          </motion.a>
         </motion.div>
 
         {/* Status indicators */}
@@ -107,20 +159,24 @@ const HeroSection = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         >
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse-glow" />
-            OAIS-konform
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
-            ISO 14721
-          </span>
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse-glow" />
-            Open Source
-          </span>
+          {[
+            { label: "OAIS-konform", color: "bg-accent" },
+            { label: "ISO 14721", color: "bg-primary" },
+            { label: "Open Source", color: "bg-accent" },
+          ].map((item, i) => (
+            <motion.span
+              key={item.label}
+              className="flex items-center gap-2"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.4 + i * 0.15 }}
+            >
+              <span className={`w-2 h-2 ${item.color} animate-pulse-glow`} />
+              {item.label}
+            </motion.span>
+          ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       <ScrollIndicator />
     </section>

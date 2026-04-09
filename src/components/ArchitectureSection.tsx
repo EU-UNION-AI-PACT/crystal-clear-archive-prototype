@@ -97,23 +97,27 @@ const ArchitectureSection = () => {
                 hover:border-primary/20
                 hover:shadow-[0_0_20px_hsl(38_90%_55%/0.06)]
                 transition-all duration-500 overflow-hidden
+                shine-sweep
               `}
               initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
+              whileHover={{ x: 4 }}
             >
               <div className="flex flex-col md:flex-row md:items-center">
-                <div className={`
-                  w-full md:w-1 h-1 md:h-auto md:self-stretch shrink-0
-                  ${layer.color === 'accent' ? 'bg-accent/40 group-hover:bg-accent/70' : 'bg-primary/40 group-hover:bg-primary/70'}
-                  transition-colors
-                `} />
+                <motion.div
+                  className={`
+                    w-full md:w-1 h-1 md:h-auto md:self-stretch shrink-0
+                    ${layer.color === 'accent' ? 'bg-accent/40 group-hover:bg-accent/70' : 'bg-primary/40 group-hover:bg-primary/70'}
+                    transition-colors duration-500
+                  `}
+                />
                 
                 <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className={`w-2 h-2 rounded-full shrink-0 ${layer.color === 'accent' ? 'bg-accent' : 'bg-primary'}`} />
-                    <h3 className="font-mono text-sm font-bold text-foreground tracking-wide uppercase">
+                    <span className={`w-2 h-2 shrink-0 ${layer.color === 'accent' ? 'bg-accent' : 'bg-primary'} group-hover:animate-pulse-glow`} />
+                    <h3 className="font-mono text-sm font-bold text-foreground tracking-wide uppercase group-hover:text-primary transition-colors duration-300">
                       {layer.label}
                     </h3>
                   </div>
@@ -123,10 +127,15 @@ const ArchitectureSection = () => {
                   </p>
 
                   <div className="flex gap-2 flex-wrap md:justify-end">
-                    {layer.tech.map((t) => (
-                      <span key={t} className="px-2 py-0.5 text-[10px] font-mono border border-border/60 text-muted-foreground/80 group-hover:border-primary/20 group-hover:text-muted-foreground transition-colors">
+                    {layer.tech.map((t, ti) => (
+                      <motion.span
+                        key={t}
+                        className="px-2 py-0.5 text-[10px] font-mono border border-border/60 text-muted-foreground/80 group-hover:border-primary/20 group-hover:text-muted-foreground transition-all duration-300"
+                        whileHover={{ scale: 1.05, borderColor: "hsl(38 90% 58% / 0.4)" }}
+                        transition={{ delay: ti * 0.03 }}
+                      >
                         {t}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
@@ -135,29 +144,36 @@ const ArchitectureSection = () => {
           ))}
         </div>
 
+        {/* Animated connection indicator */}
         <div className="flex justify-center my-4">
-          <div className="flex flex-col items-center gap-1 text-primary/30">
+          <motion.div
+            className="flex flex-col items-center gap-1 text-primary/30"
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
             <span className="text-lg">↕</span>
-          </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <motion.div
-            className="border border-border p-5 bg-card font-mono text-xs text-muted-foreground hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500"
+            className="border border-border p-5 bg-card font-mono text-xs text-muted-foreground hover:border-primary/20 hover:shadow-[0_0_15px_hsl(38_90%_55%/0.05)] transition-all duration-500 group shine-sweep"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            whileHover={{ y: -2 }}
           >
             <p className="text-primary/60 mb-2 text-[10px] tracking-wider">&#47;&#47; DATENFLUSS</p>
             <p>User/API → Access Layer → Ingest</p>
             <p>→ Preservation → Storage</p>
           </motion.div>
           <motion.div
-            className="border border-border p-5 bg-card font-mono text-xs text-muted-foreground hover:border-accent/20 hover:shadow-[0_0_15px_hsl(150_60%_45%/0.05)] transition-all duration-500"
+            className="border border-border p-5 bg-card font-mono text-xs text-muted-foreground hover:border-accent/20 hover:shadow-[0_0_15px_hsl(150_60%_45%/0.05)] transition-all duration-500 group shine-sweep"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
+            whileHover={{ y: -2 }}
           >
             <p className="text-accent/60 mb-2 text-[10px] tracking-wider">&#47;&#47; EDGE CASES</p>
             <p>Chunked Upload · WARC Integration</p>
