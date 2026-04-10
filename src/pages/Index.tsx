@@ -10,6 +10,7 @@ import FooterSection from "@/components/FooterSection";
 import GlassmorphSketchCanvas from "@/components/GlassmorphSketchCanvas";
 import ScrollProgress from "@/components/ScrollProgress";
 import DiceGame from "@/components/DiceGame";
+import HimmelspforteChime from "@/components/HimmelspforteChime";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
       <ScrollProgress />
       <GlassmorphSketchCanvas />
       <DiceGame />
+      <HimmelspforteChime />
       <div className="relative z-10">
         <Navbar />
         <HeroSection />
