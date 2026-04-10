@@ -5,6 +5,7 @@ import ArchitectureSection from "@/components/ArchitectureSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import TimelineSection from "@/components/TimelineSection";
 import RoadmapSection from "@/components/RoadmapSection";
+import LiveTicker from "@/components/LiveTicker";
 import FooterSection from "@/components/FooterSection";
 import GlassmorphSketchCanvas from "@/components/GlassmorphSketchCanvas";
 import ScrollProgress from "@/components/ScrollProgress";
@@ -22,6 +23,7 @@ const Index = () => {
         <CategoriesSection />
         <TimelineSection />
         <RoadmapSection />
+        <LiveTicker />
         <div className="pb-24">
           <FooterSection />
         </div>
