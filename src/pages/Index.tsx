@@ -23,6 +23,7 @@ const Index = () => {
         <CategoriesSection />
         <TimelineSection />
         <RoadmapSection />
+        <LiveTicker />
         <div className="pb-24">
           <FooterSection />
         </div>
